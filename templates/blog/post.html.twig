@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block body %}
+
+    <h2>{{ article.title }}</h2>
+    <p>Catégorie : {{ article.category.title }} </p>
+    <p>{{ article.content }}</p>
+    <p>{{ article.createdAt | date("d/m/Y") }}</p>
+    <a href="{{ path('home') }}">Retour</a>
+    
+    <h3>Dans la même catégorie</h3>
+    
+    {% for articleRef in articlesByCategory %}
+        {% if (article.id != articleRef.id) %}
+            <h2>{{ articleRef.title }}</h2>
+            <p>Catégorie : {{ articleRef.category.title }} </p>
+            <p>{{ articleRef.createdAt | date("d/m/Y") }}</p>
+            <a href="{{ path('post', {id: articleRef.id}) }}">Lire</a>
+        {% endif %}
+    {% endfor %}
+
+
+{% endblock %}
