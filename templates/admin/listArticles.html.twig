@@ -1,0 +1,46 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Tous les articles{% endblock %}
+
+{% block body %}
+<section>
+    <p class="text-right"><a href="{{ path('addArticle') }}" class="btn btn-primary"><i class="icon-plus-square"></i> Ajouter un
+            article</a></p>
+    <table id="tableDonnee" class="table">
+        <thead>
+            <th>Image</th>
+            <th>Titre</th>
+            <th>Date publication</th>
+            <th>Catégories</th>
+            <th>Publié</th>
+            <th>Auteur</th>
+            <th></th>
+        </thead>
+        <tbody>
+            {% for article in articles %}
+            <tr>
+                <td>{% if article.picture != null %}
+                    <img class="img-thumbnail" width="150"
+                        src="{{ article.picture }}">
+                    {% endif %}</td>
+                <td>{{ article.title }}</td>
+                <td>{{ article.createdAt | date("d/m/Y H:i") }}</td>
+                <td>
+                     {% for category in article.categories %}
+                        <span class="badge badge-pill badge-success">{{ category.title }}</a></span> 
+                    {% endfor %}
+                </td>
+                <td><span class="d-none">{{ article.valid }}</span><a
+                        href="{{ path('valideArticle', {id:article.id}) }}"><i
+                            class="big {% if article.valid == true %}green icon-toggle-right{% else %}red icon-toggle-left{% endif %}"></i></a>
+                </td>
+                <td>{{ article.user.firstname }} {{ article.user.lastname }}</td>
+                <td><a href="{{ path('editArticle', {id:article.id}) }}"><i class="icon-edit"></i></a> <a
+                        href="{{ path('deleteArticle', {id:article.id}) }}" data-toggle="modal" data-target="#delete"
+                        data-id=" {{ article.id }}"><i class="icon-trash"></i></a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

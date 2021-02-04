@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ArticleRepository;
+use App\Repository\CategoryRepository;
 use App\Entity\Article;
 use App\Entity\Category;
 
@@ -24,16 +25,12 @@ class BlogController extends AbstractController
     }
     
     /**
-     * @Route("/post/{id}", name="post")
+     * @Route("/post/{permalink}", name="post")
      */
-    public function post(Article $article,ArticleRepository $repository): Response
+    public function post(Article $article): Response
     {
-
-        $articlesByCategory = $repository->findByCategory($article->getCategory()->getId());
-
         return $this->render('blog/post.html.twig', [
             "article"=>$article,
-            "articlesByCategory"=>$articlesByCategory
         ]);
     }
     
@@ -45,6 +42,17 @@ class BlogController extends AbstractController
 
         return $this->render('blog/category.html.twig', [
             "category"=>$category
+        ]);
+    }
+    
+      /**
+     * @Route("/categories", name="categories")
+     */
+    public function categories(CategoryRepository $categoryRepository)
+    {
+        $categories = $categoryRepository->findAll();
+        return $this->render('blog/categories.html.twig', [
+            'categories' => $categories
         ]);
     }
     

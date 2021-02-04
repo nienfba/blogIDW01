@@ -1,17 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ category.title }}{% endblock %}
+{% block titlepage %}Catégorie {{ category.title }}{% endblock %}
+{% block imageHeader %}{{ category.picture }}{% endblock %}
+{% block subheading %}Tous les articles de la catégorie{% endblock %}
 
 {% block body %}
-    <h2>{{ category.title }}</h2>
-    
-    <h3>Les articles</h3>
-    {% for articles in category.articles %}
-        <h2>{{ article.title }}</h2>
-        <p>{{ article.content }}</p>
-        <p>{{ article.createdAt | date("d/m/Y") }}</p>
-        <a href="{{ path('home') }}">Retour</a>
+    {% for article in category.articles %}
+        {{ include('blog/_articles.html.twig') }}
     {% endfor %}
-
-
 {% endblock %}

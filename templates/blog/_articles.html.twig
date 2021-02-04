@@ -1,0 +1,18 @@
+<article class="row">
+    <div class="col-3"><img class="img-fluid" src="{{ article.picture }}"
+            title="{{ article.title }}" alt="{{ article.title }}"></div>
+    <div class="col-9  post-preview">
+        <a href="{{ path('post', {permalink:article.permalink}) }}">
+            <h2 class="post-title">
+                {{ article.title }}
+            </h2>
+        </a>
+        <p>{# article.content|striptags|u.truncate(100, '...', true)|raw|nl2br #}</p>
+        <p class="post-meta">Posté par {{ article.user.firstname }} {{ article.user.lastname }} le {{ article.createdAt | date('d/m/Y') }} - Dans 
+        {% for category in article.categories %}
+            <a href="{{ path('category', {id:category.id}) }}">{{ category.title }}</a> 
+        {% endfor %}
+        </p>
+    </div>
+</article>
+<hr>

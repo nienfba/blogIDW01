@@ -35,9 +35,16 @@ class Category
     private $picture;
 
     /**
-     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="category")
+     * @ORM\ManyToMany(targetEntity=Article::class, mappedBy="categories")
      */
     private $articles;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $valid;
+
+   
 
     public function __construct()
     {
@@ -97,7 +104,7 @@ class Category
     {
         if (!$this->articles->contains($article)) {
             $this->articles[] = $article;
-            $article->setCategory($this);
+            $article->addCategory($this);
         }
 
         return $this;
@@ -106,12 +113,22 @@ class Category
     public function removeArticle(Article $article): self
     {
         if ($this->articles->removeElement($article)) {
-            // set the owning side to null (unless already changed)
-            if ($article->getCategory() === $this) {
-                $article->setCategory(null);
-            }
+            $article->removeCategory($this);
         }
 
         return $this;
     }
+
+    public function getValid(): ?bool
+    {
+        return $this->valid;
+    }
+
+    public function setValid(bool $valid): self
+    {
+        $this->valid = $valid;
+
+        return $this;
+    }
+
 }

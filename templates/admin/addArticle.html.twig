@@ -1,0 +1,12 @@
+{% extends 'admin.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+
+{% block body %}
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" class="btn-primary btn" value="Enregistrer">
+    {{ form_end(form) }}
+    
+{% endblock %}
